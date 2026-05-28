@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#07080d" />
+    <meta name="description" content="XPOD — voice-first progressive overload, designed for newcomers and gym rats." />
+    <title>XPOD</title>
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.svg" />
+    <link rel="preconnect" href="https://rsms.me" crossorigin />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <!-- Decorative ambient lighting -->
+    <div class="ambient" aria-hidden="true">
+      <span class="ambient-glow ambient-glow-a"></span>
+      <span class="ambient-glow ambient-glow-b"></span>
+    </div>
+
+    <!-- Reusable SVG wordmark with 45 lb plate as the "O" -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="plateRim" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#1a1c22" />
+          <stop offset="100%" stop-color="#05060a" />
+        </linearGradient>
+        <linearGradient id="plateHub" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#f1d8a6" />
+          <stop offset="55%" stop-color="#c8a468" />
+          <stop offset="100%" stop-color="#8a6c38" />
+        </linearGradient>
+        <radialGradient id="plateCore" cx="50%" cy="45%" r="60%">
+          <stop offset="0%" stop-color="#1c1e25" />
+          <stop offset="100%" stop-color="#08090d" />
+        </radialGradient>
+        <symbol id="xpod-mark" viewBox="0 0 312 110">
+          <g font-family="Inter, system-ui, sans-serif" font-weight="800" fill="#f4f3ee">
+            <text x="0" y="86" font-size="96" letter-spacing="-4">XP</text>
+            <g transform="translate(122 8)">
+              <circle cx="46" cy="46" r="46" fill="url(#plateRim)" />
+              <circle cx="46" cy="46" r="40" fill="none" stroke="#2a2c33" stroke-width="1.2" />
+              <circle cx="46" cy="46" r="22" fill="url(#plateHub)" />
+              <circle cx="46" cy="46" r="20" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="0.6" />
+              <circle cx="46" cy="46" r="7" fill="url(#plateCore)" />
+              <text
+                x="46"
+                y="51"
+                text-anchor="middle"
+                font-size="14"
+                font-weight="800"
+                fill="#1a1308"
+                letter-spacing="0.4"
+              >45</text>
+            </g>
+            <text x="225" y="86" font-size="96" letter-spacing="-4">D</text>
+          </g>
+        </symbol>
+      </defs>
+    </svg>
+
+    <header class="topbar" id="topbar" hidden>
+      <button class="icon-btn" id="back-btn" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <a href="#/workouts" class="topbar-brand" aria-label="XPOD home">
+        <svg class="wordmark wordmark-sm" aria-hidden="true"><use href="#xpod-mark"></use></svg>
+      </a>
+      <span class="topbar-spacer"></span>
+    </header>
+
+    <main id="app">
+      <!-- LANDING -->
+      <section class="view view-landing" data-view="landing">
+        <div class="landing-hero">
+          <svg class="wordmark wordmark-xl" aria-label="XPOD"><use href="#xpod-mark"></use></svg>
+          <p class="eyebrow">Voice-first progressive overload</p>
+          <h1 class="display">Train. Speak. Progress.</h1>
+          <p class="lede">
+            Log every set by voice while you breathe between reps.
+            XPOD reads your trend and whispers the next weight before you load the bar.
+          </p>
+          <div class="cta-row">
+            <a href="#/auth" class="btn btn-primary btn-lg">Get Started</a>
+            <a href="#/auth?mode=guest" class="btn btn-ghost btn-lg">Continue as Guest</a>
+          </div>
+          <ul class="feature-strip">
+            <li><span class="feat-key">Hands-free</span><span class="feat-val">Next set, rest timer, log</span></li>
+            <li><span class="feat-key">Programs</span><span class="feat-val">PPL · UL · Full Body · 5/3/1</span></li>
+            <li><span class="feat-key">Insights</span><span class="feat-val">e1RM, volume, PR alerts</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- AUTH -->
+      <section class="view view-auth" data-view="auth">
+        <div class="auth-card card">
+          <svg class="wordmark wordmark-md" aria-hidden="true"><use href="#xpod-mark"></use></svg>
+          <h2 class="title">Welcome in</h2>
+          <p class="subtitle">Sync across devices, or just start training right now.</p>
+
+          <div class="seg-control" role="tablist" aria-label="Auth mode">
+            <button class="seg-btn is-active" data-auth-tab="login" role="tab">Log in</button>
+            <button class="seg-btn" data-auth-tab="signup" role="tab">Sign up</button>
+          </div>
+
+          <form class="form" id="auth-form" novalidate>
+            <label class="field">
+              <span>Email</span>
+              <input id="auth-email" type="email" autocomplete="email" placeholder="you@xpod.app" />
+            </label>
+            <label class="field">
+              <span>Password</span>
+              <input id="auth-password" type="password" autocomplete="current-password" placeholder="••••••••" />
+            </label>
+            <details class="advanced">
+              <summary>Cloud settings (optional)</summary>
+              <label class="field">
+                <span>Supabase URL</span>
+                <input id="supabase-url" placeholder="https://project.supabase.co" />
+              </label>
+              <label class="field">
+                <span>Anon Key</span>
+                <input id="supabase-key" placeholder="eyJ…" />
+              </label>
+              <button type="button" class="btn btn-ghost btn-sm" id="connect-cloud-btn">Save & Connect</button>
+            </details>
+
+            <button type="submit" class="btn btn-primary btn-lg" id="auth-submit">Log in</button>
+            <p class="auth-divider"><span>or</span></p>
+            <button type="button" class="btn btn-ghost btn-lg" id="guest-btn">Continue as Guest</button>
+
+            <p class="feedback" id="auth-status"></p>
+          </form>
+        </div>
+      </section>
+
+      <!-- WORKOUTS / HOME -->
+      <section class="view view-workouts" data-view="workouts">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow" id="greeting">Welcome back</p>
+            <h2 class="display sm">Your workouts</h2>
+          </div>
+          <a href="#/start" class="btn btn-primary">Start workout</a>
+        </header>
+
+        <section class="stats-row">
+          <article class="stat-card">
+            <p class="stat-label">This week</p>
+            <p class="stat-value" id="stat-week-sessions">0</p>
+            <p class="stat-sub">sessions</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label">Total volume</p>
+            <p class="stat-value" id="stat-volume">0</p>
+            <p class="stat-sub">lb · 30d</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label">Top lift</p>
+            <p class="stat-value sm" id="stat-top-lift">—</p>
+            <p class="stat-sub" id="stat-top-lift-sub">add a set</p>
+          </article>
+        </section>
+
+        <section class="block">
+          <header class="block-head">
+            <h3 class="section-title">Recent sessions</h3>
+            <a href="#/programs" class="link">Browse programs →</a>
+          </header>
+          <ul class="workout-list" id="workout-list"></ul>
+        </section>
+      </section>
+
+      <!-- PROGRAMS -->
+      <section class="view view-programs" data-view="programs">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Templates</p>
+            <h2 class="display sm">Programs</h2>
+          </div>
+        </header>
+        <p class="lede dim">Pick a structure or freestyle. You can switch any time.</p>
+        <ul class="program-grid" id="program-grid"></ul>
+      </section>
+
+      <!-- PROGRAM DETAIL -->
+      <section class="view view-program" data-view="program">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow" id="program-eyebrow">Program</p>
+            <h2 class="display sm" id="program-title">Program</h2>
+          </div>
+        </header>
+        <p class="lede dim" id="program-desc"></p>
+        <ul class="day-grid" id="program-days"></ul>
+      </section>
+
+      <!-- START PICKER -->
+      <section class="view view-start" data-view="start">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">New session</p>
+            <h2 class="display sm">Start workout</h2>
+          </div>
+        </header>
+        <div class="start-options">
+          <button class="option-card" id="start-freestyle">
+            <span class="option-key">Freestyle</span>
+            <span class="option-val">Track sets ad-hoc, no template</span>
+          </button>
+          <a class="option-card" href="#/programs">
+            <span class="option-key">From a program</span>
+            <span class="option-val">Choose a planned day</span>
+          </a>
+          <button class="option-card" id="start-quick-repeat" hidden>
+            <span class="option-key">Repeat last session</span>
+            <span class="option-val" id="quick-repeat-sub"></span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ACTIVE TRACKER -->
+      <section class="view view-tracker" data-view="workout">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow" id="tracker-eyebrow">Active session</p>
+            <h2 class="display sm" id="tracker-title">Workout</h2>
+          </div>
+          <button class="btn btn-ghost" id="end-workout-btn">End</button>
+        </header>
+
+        <section class="card voice-card">
+          <header class="card-head">
+            <h3 class="card-title">Voice console</h3>
+            <div class="badges">
+              <span class="badge" id="mic-status">Mic idle</span>
+              <span class="badge" id="rest-status">Rest off</span>
+            </div>
+          </header>
+          <p class="hint">
+            Try: <code>bench press 185 pounds 8 reps RPE 8</code>
+            · <code>next set</code> · <code>start rest timer 90 seconds</code>
+          </p>
+          <div class="button-row">
+            <button id="start-btn" class="btn btn-primary">Start listening</button>
+            <button id="stop-btn" class="btn btn-ghost" disabled>Stop</button>
+            <button id="parse-btn" class="btn btn-ghost">Parse</button>
+            <button id="next-set-btn" class="btn btn-ghost">Next set</button>
+          </div>
+          <label class="field">
+            <span>Transcript</span>
+            <textarea id="transcript" rows="2" placeholder="Live transcript…"></textarea>
+          </label>
+          <p class="feedback" id="parse-feedback"></p>
+        </section>
+
+        <section class="card">
+          <header class="card-head">
+            <h3 class="card-title">Log a set</h3>
+            <span class="pill" id="set-sequence">Set #1</span>
+          </header>
+          <form id="set-form" class="form">
+            <label class="field">
+              <span>Exercise</span>
+              <input id="exercise" required placeholder="Bench press" autocomplete="off" />
+            </label>
+            <div class="grid-2">
+              <label class="field">
+                <span>Weight (lb)</span>
+                <input id="weight" type="number" min="0" step="0.5" inputmode="decimal" required />
+              </label>
+              <label class="field">
+                <span>Reps</span>
+                <input id="reps" type="number" min="1" step="1" inputmode="numeric" required />
+              </label>
+              <label class="field">
+                <span>RPE</span>
+                <input id="rpe" type="number" min="1" max="10" step="0.5" inputmode="decimal" />
+              </label>
+              <label class="field">
+                <span>Rest (s)</span>
+                <input id="rest-seconds" type="number" min="15" step="15" value="90" inputmode="numeric" />
+              </label>
+            </div>
+            <label class="toggle">
+              <input id="voice-prompt-toggle" type="checkbox" checked />
+              <span>Voice prompts for rest timer</span>
+            </label>
+            <div class="button-row">
+              <button type="submit" class="btn btn-primary">Log set</button>
+              <button type="button" id="start-rest-btn" class="btn btn-ghost">Start rest</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card">
+          <header class="card-head">
+            <h3 class="card-title">Planned exercises</h3>
+          </header>
+          <ul class="planned-list" id="planned-list"></ul>
+        </section>
+
+        <section class="card">
+          <header class="card-head">
+            <h3 class="card-title">Progressive overload</h3>
+          </header>
+          <ul class="suggestions" id="suggestions"></ul>
+        </section>
+
+        <section class="card">
+          <header class="card-head">
+            <h3 class="card-title">This session</h3>
+          </header>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Exercise</th>
+                  <th>Weight</th>
+                  <th>Reps</th>
+                  <th>RPE</th>
+                  <th>Vol</th>
+                </tr>
+              </thead>
+              <tbody id="log-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- STATS -->
+      <section class="view view-stats" data-view="stats">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Trends</p>
+            <h2 class="display sm">Progress</h2>
+          </div>
+        </header>
+        <section class="card">
+          <header class="card-head">
+            <h3 class="card-title">History chart</h3>
+            <div class="mini-controls">
+              <select id="chart-exercise" aria-label="Exercise"></select>
+              <select id="chart-metric" aria-label="Metric">
+                <option value="weight">Weight</option>
+                <option value="reps">Reps</option>
+                <option value="volume">Volume</option>
+                <option value="e1rm">e1RM</option>
+              </select>
+            </div>
+          </header>
+          <canvas id="history-chart" aria-label="Workout history chart"></canvas>
+        </section>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view view-settings" data-view="settings">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Account</p>
+            <h2 class="display sm">Settings</h2>
+          </div>
+        </header>
+
+        <section class="card">
+          <h3 class="card-title">Account</h3>
+          <p class="feedback" id="settings-auth-status">Guest mode.</p>
+          <div class="button-row">
+            <button id="settings-login-btn" class="btn btn-ghost">Log in</button>
+            <button id="settings-logout-btn" class="btn btn-ghost">Log out</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3 class="card-title">Cloud sync</h3>
+          <p class="hint">Optional. Push and pull workouts across devices.</p>
+          <div class="button-row">
+            <button id="push-sync-btn" class="btn btn-ghost">Push</button>
+            <button id="pull-sync-btn" class="btn btn-ghost">Pull</button>
+          </div>
+          <p class="feedback" id="sync-status"></p>
+        </section>
+
+        <section class="card">
+          <h3 class="card-title">Data</h3>
+          <p class="hint">Wipes local sessions only. Cloud data is untouched.</p>
+          <button id="clear-btn" class="btn btn-danger">Clear local data</button>
+        </section>
+      </section>
+    </main>
+
+    <nav class="tabbar" id="tabbar" hidden aria-label="Primary">
+      <a href="#/workouts" data-tab="workouts">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h2l2-6 4 12 4-10 2 4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Workouts</span>
+      </a>
+      <a href="#/programs" data-tab="programs">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>Programs</span>
+      </a>
+      <a href="#/stats" data-tab="stats">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V8M10 20V4M16 20v-8M22 20H2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>Stats</span>
+      </a>
+      <a href="#/settings" data-tab="settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
