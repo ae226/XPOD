@@ -420,6 +420,9 @@ function parseRepTarget(reps) {
 
 
 
+/* ---------- Boot ------------------------------------------- */
+boot();
+
 function boot() {
   migrateLegacyData();
   const stored = loadJSON(STORAGE.workouts, []);
